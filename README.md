@@ -16,7 +16,7 @@ A real-time AI chat agent using the `LiveKit API` that can recall and use previo
 - LiveKit API for real-time communication.
 - OpenAI API for AI chat capabilities.
 - mem0 for memory context service.
-- Node.js with TypeScript for Livkit agent worker.
+- Node.js with TypeScript for Livekit agent worker.
 - NextJS for frontend UI.
 - TailwindCSS for styling.
 

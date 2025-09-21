@@ -1,0 +1,461 @@
+/* Custom LiveKit Chat Styling */
+.livekit-chat-custom {
+  /* Override LiveKit CSS variables to match your app theme */
+  --lk-bg: hsl(var(--background));
+  --lk-bg-surface: hsl(var(--card));
+  --lk-fg: hsl(var(--foreground));
+  --lk-fg-2: hsl(var(--muted-foreground));
+  --lk-accent: hsl(var(--primary));
+  --lk-accent-fg: hsl(var(--primary-foreground));
+  --lk-border: hsl(var(--border));
+  --lk-radius: var(--radius);
+
+  /* Message styling */
+  --lk-bg-chat-message-self: hsl(var(--primary));
+  --lk-fg-chat-message-self: hsl(var(--primary-foreground));
+  --lk-bg-chat-message-other: hsl(var(--muted));
+  --lk-fg-chat-message-other: hsl(var(--foreground));
+
+  /* Input styling */
+  --lk-bg-surface-menu: hsl(var(--card));
+  --lk-border-menu: hsl(var(--border));
+  --lk-bg-chat-message-input: hsl(var(--background));
+  --lk-border-chat-message-input: hsl(var(--border));
+  --lk-fg-chat-message-input: hsl(var(--foreground));
+
+  /* Scrollbar styling */
+  --lk-scrollbar-thumb: hsl(var(--muted));
+  --lk-scrollbar-track: transparent;
+
+  /* Font settings */
+  font-family: inherit;
+}
+
+/* Dark mode overrides */
+.dark .livekit-chat-custom {
+  --lk-bg: hsl(var(--background));
+  --lk-bg-surface: hsl(var(--card));
+  --lk-fg: hsl(var(--foreground));
+  --lk-fg-2: hsl(var(--muted-foreground));
+  --lk-accent: hsl(var(--primary));
+  --lk-accent-fg: hsl(var(--primary-foreground));
+  --lk-border: hsl(var(--border));
+
+  --lk-bg-chat-message-self: hsl(var(--primary));
+  --lk-fg-chat-message-self: hsl(var(--primary-foreground));
+  --lk-bg-chat-message-other: hsl(var(--muted));
+  --lk-fg-chat-message-other: hsl(var(--foreground));
+}
+
+/* Chat container styling */
+.livekit-chat-custom .lk-chat {
+  background: hsl(var(--background));
+  border: none;
+  border-radius: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: inherit;
+  position: relative;
+}
+
+/* Messages container */
+.livekit-chat-custom .lk-chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem;
+  padding-bottom: 6rem; /* Space for centered input */
+  background: hsl(var(--background));
+  scroll-behavior: smooth;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Individual message styling */
+.livekit-chat-custom .lk-chat-message {
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+  border-radius: 1.5rem;
+  transition: all 0.2s ease-in-out;
+  max-width: 70%;
+  word-wrap: break-word;
+  position: relative;
+  box-shadow: 0 1px 3px hsl(var(--foreground) / 0.1);
+  backdrop-filter: blur(10px);
+}
+
+/* Self messages (sent by current user) */
+.livekit-chat-custom .lk-chat-message[data-self="true"] {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--primary)),
+    hsl(var(--primary) / 0.9)
+  );
+  color: hsl(var(--primary-foreground));
+  margin-left: auto;
+  margin-right: 0;
+  border-bottom-right-radius: 0.5rem;
+  box-shadow: 0 2px 8px hsl(var(--primary) / 0.3);
+}
+
+/* Other messages (received) */
+.livekit-chat-custom .lk-chat-message[data-self="false"] {
+  background: hsl(var(--card));
+  color: hsl(var(--foreground));
+  margin-left: 0;
+  margin-right: auto;
+  border-bottom-left-radius: 0.5rem;
+  border: 1px solid hsl(var(--border));
+}
+
+.livekit-chat-custom .lk-chat-message:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px hsl(var(--foreground) / 0.15);
+}
+
+/* Input container - Fixed at bottom center with better visibility */
+.livekit-chat-custom .lk-chat-input-container {
+  position: fixed !important;
+  bottom: 2rem !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  max-width: 700px !important;
+  width: calc(100% - 4rem) !important;
+  padding: 1.5rem !important;
+  background: hsl(var(--background) / 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 2px solid hsl(var(--primary) / 0.3) !important;
+  border-radius: 2.5rem !important;
+  display: flex !important;
+  gap: 1rem !important;
+  align-items: center !important;
+  box-shadow: 0 8px 32px hsl(var(--foreground) / 0.1),
+    0 0 0 1px hsl(var(--primary) / 0.15),
+    inset 0 1px 0 hsl(var(--foreground) / 0.05) !important;
+  z-index: 1000 !important;
+  transition: all 0.3s ease !important;
+}
+
+.livekit-chat-custom .lk-chat-input-container:hover {
+  border-color: hsl(var(--primary) / 0.4) !important;
+  box-shadow: 0 12px 48px hsl(var(--foreground) / 0.15),
+    0 0 0 1px hsl(var(--primary) / 0.25),
+    inset 0 1px 0 hsl(var(--foreground) / 0.08) !important;
+  transform: translateX(-50%) translateY(-2px) !important;
+}
+
+.livekit-chat-custom .lk-chat-input-container:focus-within {
+  border-color: hsl(var(--primary) / 0.5) !important;
+  box-shadow: 0 12px 48px hsl(var(--foreground) / 0.15),
+    0 0 0 1px hsl(var(--primary) / 0.3), 0 0 0 4px hsl(var(--primary) / 0.15),
+    inset 0 1px 0 hsl(var(--foreground) / 0.08) !important;
+  transform: translateX(-50%) translateY(-2px) !important;
+}
+
+/* Message input styling - Larger and more prominent */
+.livekit-chat-custom .lk-chat-message-input {
+  flex: 1 !important;
+  border: none !important;
+  background: hsl(var(--muted) / 0.4) !important;
+  padding: 1.25rem 1.75rem !important;
+  font-family: inherit !important;
+  font-size: 1.1rem !important;
+  resize: none !important;
+  min-height: 56px !important;
+  max-height: 160px !important;
+  outline: none !important;
+  color: hsl(var(--foreground)) !important;
+  line-height: 1.6 !important;
+  overflow-y: auto !important;
+  scrollbar-width: none !important;
+  border-radius: 2rem !important;
+  transition: all 0.2s ease !important;
+  box-shadow: inset 0 2px 4px hsl(var(--foreground) / 0.05) !important;
+}
+
+.livekit-chat-custom .lk-chat-message-input:focus {
+  background: hsl(var(--muted) / 0.6) !important;
+  box-shadow: 0 0 0 3px hsl(var(--primary) / 0.2),
+    inset 0 2px 4px hsl(var(--foreground) / 0.08) !important;
+  border: 1px solid hsl(var(--primary) / 0.4) !important;
+}
+
+.livekit-chat-custom .lk-chat-message-input::-webkit-scrollbar {
+  display: none;
+}
+
+.livekit-chat-custom .lk-chat-message-input::placeholder {
+  color: hsl(var(--muted-foreground) / 0.8) !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  opacity: 0.8 !important;
+}
+
+/* Send button styling - More prominent */
+.livekit-chat-custom .lk-button,
+.livekit-chat-custom button[type="submit"] {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--primary)),
+    hsl(var(--primary) / 0.9)
+  ) !important;
+  color: hsl(var(--primary-foreground)) !important;
+  border-radius: 50% !important;
+  border: none !important;
+  width: 52px !important;
+  height: 52px !important;
+  transition: all 0.2s ease-in-out !important;
+  font-weight: 600 !important;
+  font-family: inherit !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  box-shadow: 0 4px 16px hsl(var(--primary) / 0.3),
+    0 2px 8px hsl(var(--foreground) / 0.1) !important;
+}
+
+.livekit-chat-custom .lk-button:hover,
+.livekit-chat-custom button[type="submit"]:hover {
+  background: hsl(var(--primary) / 0.9);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 16px hsl(var(--primary) / 0.4);
+}
+
+.livekit-chat-custom .lk-button:disabled,
+.livekit-chat-custom button[type="submit"]:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 8px hsl(var(--primary) / 0.2);
+}
+
+.livekit-chat-custom .lk-button:active,
+.livekit-chat-custom button[type="submit"]:active {
+  transform: translateY(0) scale(0.95);
+}
+
+/* Add send icon if text content */
+.livekit-chat-custom .lk-button::before,
+.livekit-chat-custom button[type="submit"]::before {
+  content: "→";
+  font-size: 1.2rem;
+  font-weight: bold;
+  transform: translateX(1px);
+}
+
+/* Message timestamp styling */
+.livekit-chat-custom .lk-chat-message-timestamp {
+  font-size: 0.7rem;
+  color: hsl(var(--muted-foreground));
+  margin-top: 0.5rem;
+  opacity: 0.7;
+  text-align: right;
+}
+
+.livekit-chat-custom
+  .lk-chat-message[data-self="false"]
+  .lk-chat-message-timestamp {
+  text-align: left;
+}
+
+/* User name styling */
+.livekit-chat-custom .lk-chat-message-username {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.livekit-chat-custom
+  .lk-chat-message[data-self="true"]
+  .lk-chat-message-username {
+  color: hsl(var(--primary-foreground) / 0.9);
+}
+
+.livekit-chat-custom
+  .lk-chat-message[data-self="false"]
+  .lk-chat-message-username {
+  color: hsl(var(--primary));
+}
+
+/* Message content */
+.livekit-chat-custom .lk-chat-message-content {
+  word-wrap: break-word;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  font-size: 0.9rem;
+}
+
+/* Empty state styling */
+.livekit-chat-custom .lk-chat-messages:empty::before {
+  content: "No messages yet. Start the conversation!";
+  display: block;
+  text-align: center;
+  color: hsl(var(--muted-foreground));
+  font-style: italic;
+  padding: 4rem 2rem;
+  opacity: 0.6;
+  font-size: 1.1rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+
+/* Animation for new messages */
+.livekit-chat-custom .lk-chat-message {
+  animation: messageSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Typing indicator animation */
+.livekit-chat-custom .lk-chat-message.typing {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Custom scrollbar */
+.livekit-chat-custom .lk-chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.livekit-chat-custom .lk-chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.livekit-chat-custom .lk-chat-messages::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted));
+  border-radius: 3px;
+}
+
+.livekit-chat-custom .lk-chat-messages::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground));
+}
+
+/* Firefox scrollbar */
+.livekit-chat-custom .lk-chat-messages {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--muted)) transparent;
+}
+
+/* Focus states for accessibility */
+.livekit-chat-custom .lk-button:focus-visible,
+.livekit-chat-custom button[type="submit"]:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+.livekit-chat-custom .lk-chat-message-input:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+@media (max-width: 768px) {
+  .livekit-chat-custom .lk-chat-messages {
+    padding: 1rem;
+    padding-bottom: 6rem;
+  }
+
+  .livekit-chat-custom .lk-chat-message {
+    max-width: 85%;
+    padding: 0.875rem 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .livekit-chat-custom .lk-chat-input-container {
+    bottom: 1.5rem !important;
+    width: calc(100% - 3rem) !important;
+    padding: 1rem !important;
+    border-radius: 2rem !important;
+    max-width: none !important;
+  }
+
+  .livekit-chat-custom .lk-chat-message-input {
+    padding: 1rem 1.25rem !important;
+    font-size: 1rem !important;
+    min-height: 48px !important;
+  }
+
+  .livekit-chat-custom .lk-button,
+  .livekit-chat-custom button[type="submit"] {
+    width: 48px !important;
+    height: 48px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .livekit-chat-custom .lk-chat-message {
+    max-width: 90%;
+  }
+
+  .livekit-chat-custom .lk-chat-input-container {
+    max-width: none !important;
+    width: calc(100% - 2rem) !important;
+    padding: 0.875rem !important;
+  }
+
+  .livekit-chat-custom .lk-chat-message-input {
+    padding: 0.875rem 1rem !important;
+    font-size: 0.95rem !important;
+    min-height: 44px !important;
+  }
+
+  .livekit-chat-custom .lk-button,
+  .livekit-chat-custom button[type="submit"] {
+    width: 44px !important;
+    height: 44px !important;
+  }
+}
+
+.lk-chat-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.lk-chat-form-input {
+  background-color: #dedddd !important;
+  color: #1a1a1a !important;
+  width: 60%;
+  outline: none !important;
+  border: none !important;
+  border-radius: 0.4rem !important;
+  padding: 0.8rem 1rem !important;
+  font-size: 1rem !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.2s ease-in-out !important;
+  resize: none !important;
+}
+
+.lk-message-body {
+  background: #cacaca !important;
+  border-radius: 0.4rem !important;
+}
+
+.lk-button {
+  display: none !important;
+}
