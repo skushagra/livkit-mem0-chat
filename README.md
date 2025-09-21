@@ -93,3 +93,4 @@ MEM0_BASE_URL=
 # OpenAI configuration : For text generation and editing
 OPENAI_API_KEY=
 ```
+
