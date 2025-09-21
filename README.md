@@ -94,3 +94,63 @@ MEM0_BASE_URL=
 OPENAI_API_KEY=
 ```
 
+The above environment variables are essential for the application to function correctly. Ensure you have valid keys and URLs for each service.
+
+## Design Overview
+
+The repo contains two main parts:
+
+1. **Client**: A NextJS frontend that allows users to join a LiveKit room with chat capabilities. Users can send and receive messages in real-time.
+2. **Worker**: A Node.js server that acts as the AI chat agent. It connects to the LiveKit room, listens for chat messages, retrieves relevant memory from `mem0`, and responds using the OpenAI API.
+
+### Client
+
+This is pretty straightforward. I used the LiveKit React SDK to create a simple UI where users can join a room with a unique username and send/receive chat messages.
+
+### Worker
+
+- I decided to use a node.js + typescript worker for registering the agent with LiveKit and handling the chat messages. Mainly because I could find more resources and examples for using LiveKit with Node.js.
+- I looked at multiple examples from LiveKit docs and github repos to understand how to connect to a room, listen for chat messages, and send messages.
+- I took inspiration from the following resources:
+  - [LiveKit Next.js Voice AI Starter](https://github.com/livekit-examples/agent-starter-react)
+  - [LiveKit and Next.js Meeting room](https://github.com/livekit-examples/meet)
+
+I later checked out the LiveKit docs for more examples of codebases using Python like:
+
+- https://github.com/livekit-examples/agent-starter-python
+- https://github.com/livekit-examples/multimodal-agent-python
+
+Although my code in typescript was pretty mature by then, so I decided to stick with it.
+
+#### Key Components of the Worker
+
+- **LiveKit Client**: In `index.ts`, it defined the flow of the agent joining the room, listening for messages, and responding.
+- **Mem0 Integration**: When a message is received, the agent queries `mem0` to fetch relevant past interactions based on the username. Any serviced implementing the IMemoryService interface can be used here. Currently using Mem0MemoryService.
+- **OpenAI Integration**: The agent uses the OpenAI API to generate responses, incorporating both the current message and the retrieved memory context. Any service implementing the IAIService interface can be used here. Currently using OpenAIService.
+- **Message Handling**: The agent processes incoming messages, retrieves memory, generates a response, and sends it back to the room. This is the encoder and decoder of the chat system, for correct activation of the RoomEvent.DataReceived event and also sending messages back to the room.
+
+#### Message Flow
+
+1. User sends a chat message in the LiveKit room.
+2. The worker (AI agent) receives the message via the `RoomEvent.DataReceived`
+3. The agent queries `mem0` for relevant past context using the username.
+4. The agent combines the current message and retrieved memory to generate a response using OpenAI.
+5. The agent sends the response back to the LiveKit room as a chat message.
+6. The user sees the AI agent's response in real-time.
+
+#### Memory Management
+
+- The `Mem0MemoryService` class handles interactions with the `mem0` API.
+- It stores user messages and retrieves relevant past interactions based on the username.
+- This allows the agent to maintain context across sessions and provide personalized responses.
+
+#### AI Service
+
+- The `OpenAIService` class manages interactions with the OpenAI API.
+- It sends prompts to OpenAI and receives generated responses.
+- This abstraction allows for easy swapping of AI providers if needed.
+
+## Future Improvements
+
+- This is a POC kind of application, we can refine it more to further improve accuracy and performance.
+- Add error handling and retries for API calls.
