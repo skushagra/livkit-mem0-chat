@@ -154,3 +154,5 @@ Although my code in typescript was pretty mature by then, so I decided to stick 
 
 - This is a POC kind of application, we can refine it more to further improve accuracy and performance.
 - Add error handling and retries for API calls.
+
+> P.S. : Accidentally left the `e` in `livekit-mem0-chat` out of the repo name. Later thought it's okay! 😅
